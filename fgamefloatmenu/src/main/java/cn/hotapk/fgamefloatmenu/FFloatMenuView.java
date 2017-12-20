@@ -3,8 +3,6 @@ package cn.hotapk.fgamefloatmenu;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.support.annotation.ColorRes;
-import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -54,7 +52,6 @@ public class FFloatMenuView extends LinearLayout {
      * 点击事件
      */
     private OnItemClickListener onItemClickListener;
-
     /**
      * 背景圆角
      */
@@ -135,14 +132,16 @@ public class FFloatMenuView extends LinearLayout {
         menuLay = new LinearLayout(getContext());
         menuLay.setGravity(Gravity.CENTER_VERTICAL);
         menuLay.setOrientation(HORIZONTAL);
+        logo.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onItemClickListener != null) {
+                    onItemClickListener.dismiss();
+                }
+            }
+        });
 
     }
-
-
-    public ImageView getLogo() {
-        return logo;
-    }
-
 
     /**
      * 显示在logo右边
@@ -246,7 +245,7 @@ public class FFloatMenuView extends LinearLayout {
                 @Override
                 public void onClick(View v) {
                     if (onItemClickListener != null) {
-                        onItemClickListener.itemClick(position);
+                        onItemClickListener.onItemClick(position);
                     }
                 }
             });
@@ -258,9 +257,10 @@ public class FFloatMenuView extends LinearLayout {
         this.onItemClickListener = onItemClickListener;
     }
 
-
     public interface OnItemClickListener {
-        void itemClick(int position);
+        void onItemClick(int position);
+
+        void dismiss();
     }
 
     public void clearViews() {
@@ -340,12 +340,18 @@ public class FFloatMenuView extends LinearLayout {
     public static final class Builder {
 
         private FFloatMenuBuilder fFloatMenuBuilder;
+        private OnItemClickListener onItemClickListener;
 
         public Builder() {
         }
 
         public Builder setBuilder(FFloatMenuBuilder fFloatMenuBuilder) {
             this.fFloatMenuBuilder = fFloatMenuBuilder;
+            return this;
+        }
+
+        public Builder setOnItemClickListener(OnItemClickListener onItemClickListener) {
+            this.onItemClickListener = onItemClickListener;
             return this;
         }
 
@@ -356,7 +362,7 @@ public class FFloatMenuView extends LinearLayout {
             fFloatMenuView.setLogoWdith(fFloatMenuBuilder.getLogoWdith());//设置logo宽高
             fFloatMenuView.setLogoRes(fFloatMenuBuilder.getLogoRes());//设置图片资源
             fFloatMenuView.setMenuItems(fFloatMenuBuilder.getMenuItems());//设置item数据
-            fFloatMenuView.setOnItemClickListener(fFloatMenuBuilder.getOnItemClickListener());//设置事件监听
+            fFloatMenuView.setOnItemClickListener(onItemClickListener);//设置事件监听
             fFloatMenuView.setMarginLogoLeft(fFloatMenuBuilder.getMarginLogoLeft());//菜单栏和logo左边距离
             fFloatMenuView.setMarginLogoRight(fFloatMenuBuilder.getMarginLogoRight());//菜单栏和logo右边距离
             fFloatMenuView.setItemIconSize(fFloatMenuBuilder.getItemIconSize());//菜单栏item图片宽高

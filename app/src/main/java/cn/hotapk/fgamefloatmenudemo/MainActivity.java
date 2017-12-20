@@ -28,12 +28,6 @@ public class MainActivity extends AppCompatActivity {
                 .addMenuItem(new MenuItem(R.drawable.ic_launcher, "我的"))
                 .addMenuItem(new MenuItem(R.drawable.icon, "首页"))
                 .setLogoRes(R.drawable.icon)
-                .setOnItemClickListener(new FFloatMenuView.OnItemClickListener() {
-                    @Override
-                    public void itemClick(int position) {
-                        Toast.makeText(MainActivity.this, position + "", Toast.LENGTH_SHORT).show();
-                    }
-                })
                 .build();
 
         btn.setOnClickListener(new View.OnClickListener() {

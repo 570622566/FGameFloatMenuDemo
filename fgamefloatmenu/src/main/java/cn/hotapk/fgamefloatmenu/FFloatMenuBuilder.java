@@ -31,7 +31,6 @@ public class FFloatMenuBuilder {
     private int itemMarginTop = 2;
     private int itemMarginBottom = 2;
     private int textMarginTop = 1;
-    private FFloatMenuView.OnItemClickListener onItemClickListener;
     private List<MenuItem> menuItems = new ArrayList<>();//item
 
     public FFloatMenuBuilder(Activity activity) {
@@ -172,15 +171,6 @@ public class FFloatMenuBuilder {
 
     public List<MenuItem> getMenuItems() {
         return menuItems;
-    }
-
-    public FFloatMenuView.OnItemClickListener getOnItemClickListener() {
-        return onItemClickListener;
-    }
-
-    public FFloatMenuBuilder setOnItemClickListener(FFloatMenuView.OnItemClickListener onItemClickListener) {
-        this.onItemClickListener = onItemClickListener;
-        return this;
     }
 
     public FFloatMenu build() {

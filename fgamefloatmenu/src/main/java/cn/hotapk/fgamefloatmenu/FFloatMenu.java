@@ -44,6 +44,8 @@ public class FFloatMenu {
 
     private FFloatMenuBuilder fFloatMenuBuilder;
 
+    private OnMenuClickListener onMenuClickListener;
+
     private int mScreenWidth;
 
     private int oldX = 0;
@@ -68,16 +70,34 @@ public class FFloatMenu {
      */
     private void creatView() {
         LinearLayout.LayoutParams logoLayParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        LinearLayout.LayoutParams logoParams = new LinearLayout.LayoutParams(CommonUtils.dip2px(mActivity, fFloatMenuBuilder.getLogoWdith()), CommonUtils.dip2px(mActivity, fFloatMenuBuilder.getLogoWdith()));
+        LinearLayout.LayoutParams floatMenuParams = new LinearLayout.LayoutParams(CommonUtils.dip2px(mActivity, fFloatMenuBuilder.getLogoWdith()), CommonUtils.dip2px(mActivity, fFloatMenuBuilder.getLogoWdith()));
         logoLay = new LinearLayout(mActivity);
         floatMenu = new ImageView(mActivity);
         logoLay.setLayoutParams(logoLayParams);
-        floatMenu.setLayoutParams(logoParams);
+        floatMenu.setLayoutParams(floatMenuParams);
         floatMenu.setBackgroundResource(fFloatMenuBuilder.getLogoRes());
+        logoLay.setOnTouchListener(touchListener);
         logoLay.addView(floatMenu);
         fFloatMenuView = new FFloatMenuView.Builder()
                 .setBuilder(fFloatMenuBuilder)
+                .setOnItemClickListener(new FFloatMenuView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        if (onMenuClickListener != null) {
+                            onMenuClickListener.onItemClick(position);
+                        }
+                    }
+
+                    @Override
+                    public void dismiss() {
+                        hideMenu();
+                        if (onMenuClickListener != null) {
+                            onMenuClickListener.dismiss();
+                        }
+                    }
+                })
                 .creat();
+
     }
 
 
@@ -85,31 +105,22 @@ public class FFloatMenu {
      * 初始化悬浮球 window
      */
     private void initFloatWindow() {
-        wmParams = new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
         wManager = mActivity.getWindowManager();
-        wmParams.type = WindowManager.LayoutParams.TYPE_APPLICATION;
-        wmParams.format = PixelFormat.RGBA_8888;
+        mScreenWidth = wManager.getDefaultDisplay().getWidth();
+        wmParams = new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.TYPE_APPLICATION,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN | WindowManager.LayoutParams.FLAG_FULLSCREEN
+                , PixelFormat.RGBA_8888);
         wmParams.gravity = Gravity.START | Gravity.TOP;
-        wmParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN | WindowManager.LayoutParams.FLAG_FULLSCREEN;
         wmParams.x = 0;
-        wmParams.y = CommonUtils.isFullScreen(mActivity) ? 1 : CommonUtils.getStatusHeight(mActivity);
+        wmParams.alpha = 0.2f;//透明度
+        wmParams.y = CommonUtils.isFullScreen(mActivity) ? 0 : CommonUtils.getStatusHeight(mActivity);
         try {
             wManager.addView(logoLay, wmParams);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        mScreenWidth = wManager.getDefaultDisplay().getWidth();
-
-        ImageView logoView = fFloatMenuView.getLogo();
-        logoView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showMenu = !showMenu;
-                wManager.removeViewImmediate(fFloatMenuView);
-                wManager.addView(logoLay, wmParams);
-            }
-        });
-        floatMenu.setOnTouchListener(touchListener);
 
     }
 
@@ -133,7 +144,6 @@ public class FFloatMenu {
                     break;
                 case MotionEvent.ACTION_UP:
                     if (Math.abs((int) event.getRawX() - oldX) < 10 && Math.abs((int) event.getRawY() - oldY) < 10) {
-                        System.out.println("Ddddddd---");
                         wManager.removeViewImmediate(logoLay);
                         if (Math.abs(mScreenWidth - wmParams.x) < 20) {
                             fFloatMenuView.showMenuLeft();
@@ -174,6 +184,34 @@ public class FFloatMenu {
         }
     };
 
+    /**
+     * 设置事件监听
+     *
+     * @param onMenuClickListener
+     */
+    public void setOnMenuClickListener(OnMenuClickListener onMenuClickListener) {
+        this.onMenuClickListener = onMenuClickListener;
+    }
+
+
+    /**
+     * 显示悬浮窗菜单栏
+     */
+    public void showMenu() {
+
+    }
+
+    /**
+     * 隐藏悬浮窗菜单栏
+     */
+
+    public void hideMenu() {
+        if (showMenu) {
+            wManager.removeViewImmediate(fFloatMenuView);
+            wManager.addView(logoLay, wmParams);
+            showMenu = !showMenu;
+        }
+    }
 
     /**
      * 显示悬浮窗
@@ -227,10 +265,22 @@ public class FFloatMenu {
 
     }
 
+    public interface OnMenuClickListener {
+
+        void onItemClick(int position);
+
+        void dismiss();
+
+        void open();
+    }
+
     /**
      * activity 生命周期监听
      */
     private void activityLifecycle() {
+        if (android.os.Build.VERSION.SDK_INT < 14) {
+            return;
+        }
         ((Application) mActivity.getApplicationContext()).registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
