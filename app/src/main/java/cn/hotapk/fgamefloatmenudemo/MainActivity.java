@@ -29,6 +29,23 @@ public class MainActivity extends AppCompatActivity {
                 .addMenuItem(new MenuItem(R.drawable.icon, "首页"))
                 .setLogoRes(R.drawable.icon)
                 .build();
+        fFloatMenu.setOnMenuClickListener(new FFloatMenu.OnMenuClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Toast.makeText(MainActivity.this,"点击了第"+position+"项",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void dismiss() {
+                Toast.makeText(MainActivity.this,"关闭菜单栏",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void open() {
+                Toast.makeText(MainActivity.this,"打开菜单栏",Toast.LENGTH_SHORT).show();
+
+            }
+        });
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
