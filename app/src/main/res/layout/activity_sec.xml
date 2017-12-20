@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="cn.hotapk.fgamefloatmenudemo.SecActivity">
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="117dp"
+        android:layout_height="78dp"
+        android:layout_marginStart="8dp"
+        android:onClick="hideFloat"
+        android:text="隐藏"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="45dp" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="147dp"
+        android:layout_height="70dp"
+        android:layout_marginEnd="8dp"
+        android:onClick="showFloat"
+        android:text="显示"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout_editor_absoluteY="227dp" />
+</android.support.constraint.ConstraintLayout>
