@@ -24,10 +24,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         btn = findViewById(R.id.btn);
         fFloatMenu = new FFloatMenuBuilder(this)
-                .setBgColor(R.color.colorPrimary)//背景颜色
-                .addMenuItem(new MenuItem(R.drawable.ic_launcher, "我的"))
-                .addMenuItem(new MenuItem(R.drawable.icon, "首页"))
-                .setLogoRes(R.drawable.icon)//logo资源
+                .setBgColor(R.color.bgcolor)//背景颜色
+                .addMenuItem(new MenuItem(R.mipmap.remind, "消息"))
+                .addMenuItem(new MenuItem(R.mipmap.cart, "充值"))
+                .addMenuItem(new MenuItem(R.mipmap.account, "我的"))
+                .addMenuItem(new MenuItem(R.mipmap.home, "首页"))
+                .setItemIconSize(18)
+                .setMarginLogoLeft(3)
+                .setMarginLogoRight(16)
+                .setItemMarginRight(6)
+                .setItemMarginLeft(6)
+                .setItemMarginTop(0)
+                .setItemMarginBottom(0)
+                .setLogoRes(R.mipmap.ic_launcher_round)//logo资源
                 .setDefPositionShow(FFloatMenu.SHOW_LEFT)//悬浮窗默认显示左边
                 .setRotateLogo(true)//拖拽时悬浮窗是否旋转动画
                 .setViewAlpha(0.7f)//半隐藏悬浮窗时透明度
