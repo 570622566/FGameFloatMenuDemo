@@ -18,19 +18,26 @@ import cn.hotapk.fgamefloatmenu.bean.MenuItem;
  */
 public class FFloatMenuBuilder {
     private Activity mActivity;
-    private int bgRadius = 100;
-    private int bgColor = Color.TRANSPARENT;
-    private int logoWdith = 46;
-    private int logoRes;
-    private int marginLogoLeft = 6;
-    private int marginLogoRight = 12;
-    private int itemIconSize = 30;
-    private int itemTextSize = 10;
-    private int itemMarginLeft = 4;
+    private int bgRadius = 100;//背景圆角
+    private int bgColor = Color.TRANSPARENT;//背景颜色
+    private int logoWdith = 46;//logo宽度 dp
+    private int logoRes;//logo图片资源
+    private int marginLogoLeft = 6;//menu的布局到logo左边距离
+    private int marginLogoRight = 12;//menu的布局到右边距离
+    private int itemIconSize = 30;//item的icon大小
+    private int itemTextSize = 10;//item的字体大小
+    private int itemMarginLeft = 4;//item间距
     private int itemMarginRight = 4;
     private int itemMarginTop = 2;
     private int itemMarginBottom = 2;
     private int textMarginTop = 1;
+    private int defPositionShow = 1;//初始化默认显示在左上角 1 ： 左上角 2 ：右上角
+    private int defOffsetY = 70;//初始化默认Y坐标的偏移量
+    private float viewAlpha = 1f;//靠边缩小时透明度，默认不透明
+    private boolean rotateLogo = false;//拖拽悬浮窗时是否启用旋转动画
+    private boolean centerInLogo = true;//拖拽点是否在悬浮球中心点
+    private int millisInFuture = 6;//半隐藏悬浮球倒计时 秒
+    private int hideLogoSize = 0;//半隐藏logo靠边移动大小 dp
     private List<MenuItem> menuItems = new ArrayList<>();//item
 
     public FFloatMenuBuilder(Activity activity) {
@@ -113,6 +120,42 @@ public class FFloatMenuBuilder {
         return this;
     }
 
+    public FFloatMenuBuilder setDefPositionShow(int defPositionShow) {
+        this.defPositionShow = defPositionShow;
+        return this;
+    }
+
+    public FFloatMenuBuilder setDefOffsetY(int defOffsetY) {
+        this.defOffsetY = defOffsetY;
+        return this;
+    }
+
+    public FFloatMenuBuilder setViewAlpha(float viewAlpha) {
+        this.viewAlpha = viewAlpha;
+        return this;
+
+    }
+
+    public FFloatMenuBuilder setRotateLogo(boolean rotateLogo) {
+        this.rotateLogo = rotateLogo;
+        return this;
+    }
+
+    public FFloatMenuBuilder setCenterInLogo(boolean centerInLogo) {
+        this.centerInLogo = centerInLogo;
+        return this;
+    }
+
+    public FFloatMenuBuilder setMillisInFuture(int millisInFuture) {
+        this.millisInFuture = millisInFuture;
+        return this;
+    }
+
+    public FFloatMenuBuilder setHideLogoSize(int hideLogoSize) {
+        this.hideLogoSize = hideLogoSize;
+        return this;
+    }
+
     public Activity getmActivity() {
         return mActivity;
     }
@@ -167,6 +210,34 @@ public class FFloatMenuBuilder {
 
     public int getTextMarginTop() {
         return textMarginTop;
+    }
+
+    public int getDefPositionShow() {
+        return defPositionShow;
+    }
+
+    public int getDefOffsetY() {
+        return defOffsetY;
+    }
+
+    public float getViewAlpha() {
+        return viewAlpha;
+    }
+
+    public boolean isRotateLogo() {
+        return rotateLogo;
+    }
+
+    public boolean isCenterInLogo() {
+        return centerInLogo;
+    }
+
+    public int getMillisInFuture() {
+        return millisInFuture;
+    }
+
+    public int getHideLogoSize() {
+        return hideLogoSize;
     }
 
     public List<MenuItem> getMenuItems() {

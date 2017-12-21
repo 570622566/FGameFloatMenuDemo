@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.hotapk.fgamefloatmenu.bean.MenuItem;
+import cn.hotapk.fgamefloatmenu.utils.CommonUtils;
 
 /**
  * @author laijian
@@ -146,10 +147,10 @@ public class FFloatMenuView extends LinearLayout {
     /**
      * 显示在logo右边
      */
-    public void showMenuRight() {
+    public void showLogoRight() {
         updataItemView(true);
-        menuLayParams.setMarginStart(dip2px(marginLogoLeft));
-        menuLayParams.setMarginEnd(dip2px(marginLogoRight));
+        menuLayParams.setMarginStart(CommonUtils.dip2px(getContext(),marginLogoLeft));
+        menuLayParams.setMarginEnd(CommonUtils.dip2px(getContext(),marginLogoRight));
         menuLay.setLayoutParams(menuLayParams);
 
     }
@@ -158,10 +159,10 @@ public class FFloatMenuView extends LinearLayout {
     /**
      * 显示在logo左边
      */
-    public void showMenuLeft() {
+    public void showLogoLeft() {
         updataItemView(false);
-        menuLayParams.setMarginStart(dip2px(marginLogoRight));
-        menuLayParams.setMarginEnd(dip2px(marginLogoLeft));
+        menuLayParams.setMarginStart(CommonUtils.dip2px(getContext(),marginLogoRight));
+        menuLayParams.setMarginEnd(CommonUtils.dip2px(getContext(),marginLogoLeft));
         menuLay.setLayoutParams(menuLayParams);
     }
 
@@ -194,7 +195,7 @@ public class FFloatMenuView extends LinearLayout {
         gd.setCornerRadius(bgRadius);
         gd.setColor(ContextCompat.getColor(getContext(), bgColor));//添加背景颜色
         setBackground(gd);
-        LinearLayout.LayoutParams logoLayParams = new LayoutParams(dip2px(logoWdith), dip2px(logoWdith));
+        LinearLayout.LayoutParams logoLayParams = new LayoutParams(CommonUtils.dip2px(getContext(),logoWdith), CommonUtils.dip2px(getContext(),logoWdith));
         logo.setLayoutParams(logoLayParams);
         logo.setBackgroundResource(logoRes);
         addView(logo);
@@ -214,7 +215,7 @@ public class FFloatMenuView extends LinearLayout {
              */
             LinearLayout menuItemLay = new LinearLayout(getContext());
             LinearLayout.LayoutParams itemLayoutParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            itemLayoutParams.setMargins(dip2px(itemMarginLeft), dip2px(itemMarginTop), dip2px(itemMarginRight), dip2px(itemMarginBottom));
+            itemLayoutParams.setMargins(CommonUtils.dip2px(getContext(),itemMarginLeft), CommonUtils.dip2px(getContext(),itemMarginTop), CommonUtils.dip2px(getContext(),itemMarginRight), CommonUtils.dip2px(getContext(),itemMarginBottom));
             menuItemLay.setGravity(Gravity.CENTER);
             menuItemLay.setOrientation(VERTICAL);
             menuItemLay.setLayoutParams(itemLayoutParams);
@@ -223,7 +224,7 @@ public class FFloatMenuView extends LinearLayout {
              * 嵌套ImageView
              */
             ImageView itemImg = new ImageView(getContext());
-            LinearLayout.LayoutParams itemImgParams = new LayoutParams(dip2px(itemIconSize), dip2px(itemIconSize));
+            LinearLayout.LayoutParams itemImgParams = new LayoutParams(CommonUtils.dip2px(getContext(),itemIconSize), CommonUtils.dip2px(getContext(),itemIconSize));
             itemImg.setBackgroundResource(menuItems.get(i).getResid());
             itemImgParams.gravity = Gravity.CENTER_HORIZONTAL;
             itemImg.setLayoutParams(itemImgParams);
@@ -233,7 +234,7 @@ public class FFloatMenuView extends LinearLayout {
              */
             TextView textView = new TextView(getContext());
             LinearLayout.LayoutParams itemTextParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            itemTextParams.setMargins(0, dip2px(textMarginTop), 0, 0);
+            itemTextParams.setMargins(0, CommonUtils.dip2px(getContext(),textMarginTop), 0, 0);
             itemTextParams.gravity = Gravity.CENTER_HORIZONTAL;
             textView.setText(menuItems.get(i).getTitle());
             textView.setTextSize(itemTextSize);
@@ -325,16 +326,6 @@ public class FFloatMenuView extends LinearLayout {
         this.textMarginTop = textMarginTop;
     }
 
-    /**
-     * 将dip或dp值转换为px值，保证尺寸大小不变
-     *
-     * @param dipValue （DisplayMetrics类中属性density）
-     * @return
-     */
-    public int dip2px(float dipValue) {
-        final float scale = getContext().getApplicationContext().getResources().getDisplayMetrics().density;
-        return (int) (dipValue * scale + 0.5f);
-    }
 
 
     public static final class Builder {

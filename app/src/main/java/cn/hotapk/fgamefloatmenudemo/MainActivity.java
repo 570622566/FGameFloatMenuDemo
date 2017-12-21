@@ -24,26 +24,31 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         btn = findViewById(R.id.btn);
         fFloatMenu = new FFloatMenuBuilder(this)
-                .setBgColor(R.color.colorPrimary)
+                .setBgColor(R.color.colorPrimary)//背景颜色
                 .addMenuItem(new MenuItem(R.drawable.ic_launcher, "我的"))
                 .addMenuItem(new MenuItem(R.drawable.icon, "首页"))
-                .setLogoRes(R.drawable.icon)
+                .setLogoRes(R.drawable.icon)//logo资源
+                .setDefPositionShow(FFloatMenu.SHOW_LEFT)//悬浮窗默认显示左边
+                .setRotateLogo(true)//拖拽时悬浮窗是否旋转动画
+                .setViewAlpha(0.7f)//半隐藏悬浮窗时透明度
+                .setCenterInLogo(false)//拖拽点是否居中logo
+                .setMillisInFuture(6)//半隐藏悬浮球倒计时
+                .setHideLogoSize(20)//半隐藏logo靠边移动大小 dp
                 .build();
         fFloatMenu.setOnMenuClickListener(new FFloatMenu.OnMenuClickListener() {
             @Override
             public void onItemClick(int position) {
-                Toast.makeText(MainActivity.this,"点击了第"+position+"项",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "点击了第" + position + "项", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void dismiss() {
-                Toast.makeText(MainActivity.this,"关闭菜单栏",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "关闭菜单栏", Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void open() {
-                Toast.makeText(MainActivity.this,"打开菜单栏",Toast.LENGTH_SHORT).show();
-
+            public void open(int status) {
+                Toast.makeText(MainActivity.this, "悬浮窗菜单在" + (status == 1 ? "左边" : "右边"), Toast.LENGTH_SHORT).show();
             }
         });
 
