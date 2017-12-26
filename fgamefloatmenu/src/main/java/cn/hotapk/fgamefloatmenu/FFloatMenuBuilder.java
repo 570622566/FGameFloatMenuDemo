@@ -38,6 +38,8 @@ public class FFloatMenuBuilder {
     private boolean centerInLogo = true;//拖拽点是否在悬浮球中心点
     private int millisInFuture = 6;//半隐藏悬浮球倒计时 秒
     private int hideLogoSize = 0;//半隐藏logo靠边移动大小 dp
+    private boolean oneShow = false;//半隐藏时是否点击就显示菜单栏
+
     private List<MenuItem> menuItems = new ArrayList<>();//item
 
     public FFloatMenuBuilder(Activity activity) {
@@ -156,6 +158,11 @@ public class FFloatMenuBuilder {
         return this;
     }
 
+    public FFloatMenuBuilder setOneShow(boolean oneShow) {
+        this.oneShow = oneShow;
+        return this;
+    }
+
     public Activity getmActivity() {
         return mActivity;
     }
@@ -238,6 +245,10 @@ public class FFloatMenuBuilder {
 
     public int getHideLogoSize() {
         return hideLogoSize;
+    }
+
+    public boolean isOneShow() {
+        return oneShow;
     }
 
     public List<MenuItem> getMenuItems() {

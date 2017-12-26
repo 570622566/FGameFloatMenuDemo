@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
                 .setCenterInLogo(false)//拖拽点是否居中logo
                 .setMillisInFuture(6)//半隐藏悬浮球倒计时
                 .setHideLogoSize(20)//半隐藏logo靠边移动大小 dp
+                .setOneShow(false)
                 .build();
         fFloatMenu.setOnMenuClickListener(new FFloatMenu.OnMenuClickListener() {
             @Override

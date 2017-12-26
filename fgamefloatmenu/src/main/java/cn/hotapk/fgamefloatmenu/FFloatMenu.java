@@ -140,9 +140,17 @@ public class FFloatMenu {
      * 拖拽点是否在悬浮球中心点
      */
     private boolean centerInLogo = true;
+    /**
+     * 半隐藏时是否点击就显示菜单栏
+     * false：半隐藏时点击先显示完整悬浮窗，再点击才出菜单
+     * true：半隐藏时点击直接显示菜单
+     */
+    private boolean oneShow = false;
 
+    private boolean floatshow = false;
 
     private RotateAnimation rotateAnimation;
+
 
     public FFloatMenu(FFloatMenuBuilder fFloatMenuBuilder) {
         this.fFloatMenuBuilder = fFloatMenuBuilder;
@@ -153,7 +161,8 @@ public class FFloatMenu {
         rotateLogo = this.fFloatMenuBuilder.isRotateLogo();
         centerInLogo = this.fFloatMenuBuilder.isCenterInLogo();
         millisInFuture = this.fFloatMenuBuilder.getMillisInFuture();
-        logoScrollX = this.fFloatMenuBuilder.getHideLogoSize() > 0 ? CommonUtils.dip2px(mActivity,  this.fFloatMenuBuilder.getHideLogoSize()):
+        oneShow = this.fFloatMenuBuilder.isOneShow();
+        logoScrollX = this.fFloatMenuBuilder.getHideLogoSize() > 0 ? CommonUtils.dip2px(mActivity, this.fFloatMenuBuilder.getHideLogoSize()) :
                 CommonUtils.dip2px(mActivity, fFloatMenuBuilder.getLogoWdith()) / 2;
         creatView();
         initFloatWindow();
@@ -256,6 +265,7 @@ public class FFloatMenu {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                    floatshow = false;
                 } else {
                     countDownTimer.cancel();
                 }
@@ -348,7 +358,15 @@ public class FFloatMenu {
             defPositionShow = SHOW_LEFT;
         }
         if (Math.abs((int) event.getRawX() - oldX) < 10 && Math.abs((int) event.getRawY() - oldY) < 10) {
-            showMenu();
+            if (!floatshow && !oneShow) {
+//                timeCancel();
+//                wManager.updateViewLayout(logoLay, wmParams);
+                ismove = false;
+                floatshow = true;
+                countDownTimer.start();
+            } else {
+                showMenu();
+            }
         } else {
             if (!showMenu) {
                 if (!CommonUtils.isFullScreen(mActivity)) {
@@ -468,7 +486,7 @@ public class FFloatMenu {
     /**
      * 移除悬浮窗 释放资源
      */
-    private void destroyFloat() {
+    public void destroyFloat() {
         try {
 
             hideFloat();
